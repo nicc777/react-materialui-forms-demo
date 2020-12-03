@@ -13,10 +13,20 @@ $ yarn add @material-ui/core
 $ yarn add react-hook-form
 ```
 
-**Important Links**
+## Quick Start
+
+```bash
+$ yarn && yarn start
+```
+
+If your browser did not automatically open, navigate to http://localhost:3000 
+
+Enable your browser's development tools and watch the `console` output when you submit the form.
+
+## Important Links
 
 * [React](https://reactjs.org/)
 * [Material UI](https://material-ui.com/)
 * [react-hook-form](https://react-hook-form.com/) ([GitHub](https://github.com/react-hook-form/react-hook-form))
 
-License: [MIT](https://opensource.org/licenses/MIT) (_[WikiPedia](https://en.wikipedia.org/wiki/MIT_License)_)
+License: [MIT](https://raw.githubusercontent.com/nicc777/react-materialui-forms-demo/main/LICENSE) (_[WikiPedia](https://en.wikipedia.org/wiki/MIT_License)_)
