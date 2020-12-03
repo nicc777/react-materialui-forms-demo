@@ -16,6 +16,8 @@ $ yarn add react-hook-form
 ## Quick Start
 
 ```bash
+$ git clone https://github.com/nicc777/react-materialui-forms-demo.git
+$ cd react-materialui-forms-demo
 $ yarn && yarn start
 ```
 
