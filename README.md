@@ -87,13 +87,73 @@ I used a helper function called `is_user_session_valid` that will actually attem
 
 **Line 63:** Similar thing happens with the `accessToken`, which is the JWT access token we would receive after a successful login. **_Note:_** In this implementation all back-end or server operations are only simulated.
 
-**Line 64:** If the user opted to be remembered when they logged in, the local `rememberMe` value will contain the STRING `true`. Many casual observers may not notice this, but here we actually TEST if the string is `true` (which will return a BOOLEAN value). If the string is not present, the default BOOLEAN value of `false` is used.
+**Line 64:** If the user opted to be remembered when they logged in, the local `rememberMe` value will contain the STRING `true`. Casual observers may not notice this, but here we actually TEST if the string is `true` (which will return a BOOLEAN value). If the string is not present, the default BOOLEAN value of `false` is used.
+
+**Remember**: `localStorage` is not type-aware and all values are stored as strings.
 
 **Line 65 to 72:** Validation of the JWT token, if present/defined
 
 **Line 66:** We call another helper function (`is_jwt_expired()`) to test if the JWT has expired. No point in loading the user landing page if we know before hand the JWT expired, which means all calls to the back-end or server will be rejected anyway.
 
 **Line 67 to 69:** If the JWT is still valid, we will also store the decoded values. This is personal preference, as I believe that a typical application may refer to the JWT data several times and by calling `jwt_decode()` each time may just cause unnecessary application latency.
+
+The `is_jwt_expired()` function should be pretty straight forward. If a `exp` field is present in the JWT access token (which should be an INTEGER), we can test to see of this value is still larger that the current timestamp - in other words, it's still perfectly valid. Some things to keep in mind:
+
+* You should be aware of potential timezone differences between the application users and the timestamp value in the JWT Access Token. Personally, if I also control the back-end/server, I keep everything always in UTC (not demonstrated in this demo)
+* JavaScript timestamp is in milliseconds, so you have to multiply by 1000 - unless of course your JWT Access Token `exp` value is also in milliseconds (strictly speaking this should not ever be the case, but you never know...([documentation](https://tools.ietf.org/html/rfc7519#section-4.1.4)))
+
+Now, finally, we get to the use case that require the context to be updated. In this demonstration project, this happens when the user logs in or out.
+
+The simplest example is actually in the `UserLandingPage` for the LOGOUT functionality.
+
+The relevant lines:
+
+```javascript
+// ... some lines omitted
+import { UserContext } from '../context/user-context';
+
+// ...
+
+export default function UserLandingPage() {
+
+    // ...
+    const user_context = useContext(UserContext);
+    const { dispatch } = user_context;
+    const [loginState, setLoginState] = useState(user_context.state.loggedIn);
+
+    // ...
+
+    if (!loginState) {
+        return window.location.href = "/";
+    }
+
+    return (
+        <React.Fragment>
+            <CssBaseline />
+            <AppBar position="static">
+                <Toolbar>
+                    <Icon className="{classes.icon} far fa-user" color="secondary" />
+                    <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                        {user_context.state.decodedJwt.name}
+                    </Typography>
+                    <Button color="inherit" onClick={() => {
+                        // NOTE: You will typically also call a remote logout service here
+                        dispatch({type: 'logout'});
+                        setLoginState(false);
+                    }}>Logout</Button>
+                </Toolbar>
+            </AppBar>
+            {/* ... */}
+        </React.Fragment>
+    );
+}
+```
+
+Apart from what we already know to READ context data, the extra bit now comes in the form of the `dispatch()` function. This function requires an `action` which is the object `{type: 'logout'}`
+
+In the `user-context.js` file, the `dispatch()` implementation can be seen as:
+
+![Dispatch Implementation](./docs/images/snippet-04.png)
 
 ## Important Links
 
