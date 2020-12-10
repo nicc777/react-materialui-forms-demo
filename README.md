@@ -155,6 +155,21 @@ In the `user-context.js` file, the `dispatch()` implementation can be seen as:
 
 ![Dispatch Implementation](./docs/images/snippet-04.png)
 
+What happens is that we simply replace the current context with the default, which is defined by `default_user_context`, and then we remove the cached JWT from `localStorage`. Back in the `UserLandingPage`, the `loginState` will now be `false`, forcing a hard redirect to the home page: http://localhost:3000/
+
+What the page is now effectively "reloaded", the context is also refreshed and since the JWT is no longer in `localStorage` it will force once again the `LoginPage` to render in stead of the `UserLandingPage`.
+
+You could also use [React Router](https://reactrouter.com/web/guides/quick-start), but I decided this example is still too simple for that.
+
+The `LoginPage` use of the context is only slightly more complex as some additional data is now send with the call to `dispatch()`:
+
+* The type is now set to `login`
+* Additional fields are added to the object. In this case we only simulate the data we got back from the server. The returned data is all send to the `dispatch()` function which will do the required checks. If all goes well, the context state for the `loggedIn` value is now `true`. The local state `loginState` is updated with the context value of `loggedIn` and based on this state change a refresh may be forced. Similar to the previous discussion around the refresh, the `App` component will next render the `UserLandingPage` instead.
+
+### Collecting and Validating Form Data
+
+TODO
+
 ## Important Links
 
 * [React](https://reactjs.org/)
