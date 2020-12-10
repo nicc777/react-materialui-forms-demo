@@ -15,6 +15,7 @@ var default_user_context = {
     userName: null,
     jwtAccessToken: null,
     decodedJwt: null,
+    rememberMe: false,
 }
 
 // Below is a valid user for testing purposes. The JWT is the example from https://jwt.io
@@ -60,6 +61,7 @@ const is_jwt_expired = (jwt_token) => {
 const is_user_session_valid = (current_user_context) => {
     current_user_context.userName = localStorage.getItem('username') || null;
     current_user_context.jwtAccessToken = localStorage.getItem('accessToken') || null;
+    current_user_context.rememberMe = (localStorage.getItem('rememberMe') === "true") || false;
     if (current_user_context.jwtAccessToken) {
         current_user_context.loggedIn = is_jwt_expired(current_user_context.jwtAccessToken);
         if (current_user_context.loggedIn) {
@@ -92,7 +94,12 @@ export const UserContextProvider = ({ children }) => {
                     jwtAccessToken: action.jwt,
                     decodedJwt: null,
                 }
-                localStorage.setItem('username', action.username);
+                if (action.rememberMe) {
+                    localStorage.setItem('username', action.username);
+                } else {
+                    localStorage.removeItem('username');
+                }
+                localStorage.setItem('rememberMe', action.rememberMe);
                 localStorage.setItem('accessToken', action.jwt);
                 return is_user_session_valid(newState);
             case 'logout':
