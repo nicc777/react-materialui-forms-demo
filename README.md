@@ -43,6 +43,10 @@ If your browser did not automatically open, navigate to http://localhost:3000
 
 Enable your browser's development tools and watch the `console` output for some interesting additional info. You can also checkout the values in local storage to see what changes during login and logout processing.
 
+## Project Design Overview
+
+![Design](./docs/images/react-materialui-forms-demo.png)
+
 ## Important Links
 
 * [React](https://reactjs.org/)
