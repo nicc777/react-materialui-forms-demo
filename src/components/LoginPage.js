@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import MuiAlert from '@material-ui/lab/Alert';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 // Customized MUI Components
 import FromEmailTextField from './FormEmailTextField';
@@ -35,6 +37,7 @@ const LoginPage = (props) => {
   const user_context = useContext(UserContext);
   const { dispatch } = user_context;
   const [loginState, setLoginState] = useState(user_context.state.loggedIn);
+  const [rememberMeChecked, setRememberMeChecked] = useState(user_context.state.rememberMe);
 
   // Consume react-hook-form
   const { register, errors, handleSubmit } = useForm();
@@ -60,7 +63,8 @@ const LoginPage = (props) => {
       const action = {
         type: "login",
         username: data.email,
-        jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBldGVyIFBhbiIsImlhdCI6MTUxNjIzOTAyMn0.oMnchyzE4rZOIbJElIDR_rs8ogDSXa8aOpmL1FAmYCc"
+        jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBldGVyIFBhbiIsImlhdCI6MTUxNjIzOTAyMn0.oMnchyzE4rZOIbJElIDR_rs8ogDSXa8aOpmL1FAmYCc",
+        rememberMe: rememberMeChecked,
       }
       dispatch(action);
       setLoginState(user_context.state.loggedIn);
@@ -90,6 +94,11 @@ const LoginPage = (props) => {
     return window.location.href = "/";
   }
 
+  // Remember me selection handler
+  const rememberMeToggle = (event) => {
+    setRememberMeChecked(event.target.checked);
+  };
+
   return (
     <Container className={classes.container} maxWidth="xs">
       <Grid container spacing={3}>
@@ -111,6 +120,18 @@ const LoginPage = (props) => {
               />
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={rememberMeChecked}
+                onChange={rememberMeToggle}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+              />
+            }
+            label="Remember me"
+          />
         </Grid>
         <Grid item xs={12}>
           <Button color="secondary" fullWidth type="submit" variant="contained" onClick={handleSubmit(onSubmit, onError)}>
