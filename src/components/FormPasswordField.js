@@ -33,11 +33,11 @@ const FormPasswordFieldWithError = (props) => {
     );
 };
 
-const FromPasswordField = (props) => {
+const FormPasswordField = (props) => {
     if (props.error) {
         return <FormPasswordFieldWithError {...props} />
     }
     return <FormPasswordFieldNoError {...props} />
 }
 
-export default FromPasswordField;
+export default FormPasswordField;

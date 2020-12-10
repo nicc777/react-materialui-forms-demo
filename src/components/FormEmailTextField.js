@@ -43,11 +43,11 @@ const FormEmailTextFieldWithError = (props) => {
     );
 };
 
-const FromEmailTextField = (props) => {
+const FormEmailTextField = (props) => {
     if ( props.error ) {
         return <FormEmailTextFieldWithError {...props} />
     }
     return <FormEmailTextFieldNoError {...props} />
 }
 
-export default FromEmailTextField;
+export default FormEmailTextField;

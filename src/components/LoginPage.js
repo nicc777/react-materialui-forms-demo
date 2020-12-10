@@ -10,8 +10,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 // Customized MUI Components
-import FromEmailTextField from './FormEmailTextField';
-import FromPasswordField from './FormPasswordField';
+import FormEmailTextField from './FormEmailTextField';
+import FormPasswordField from './FormPasswordField';
 // Context
 import { UserContext } from '../context/user-context';
 
@@ -105,7 +105,7 @@ const LoginPage = (props) => {
         <Grid item xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <FromEmailTextField
+              <FormEmailTextField
                 error={emailValidationError}
                 register={email_text_Field_ref}
                 current_user={user_context.state.userName}
@@ -113,7 +113,7 @@ const LoginPage = (props) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <FromPasswordField
+              <FormPasswordField
                 error={passwordValidationError}
                 register={password_text_field_ref}
                 {...props}
