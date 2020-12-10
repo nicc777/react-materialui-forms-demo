@@ -69,6 +69,32 @@ A complete example may look something like the `App.js` file:
 
 ![Example read only context access](./docs/images/snippet-02.png)
 
+But how is the `UserContext` build up after the application is being used? Or, in other words, assuming there are now cached values in `localStorage`, how do we use those values instead of the default values?
+
+In the file `user-context.js` there is the following line:
+
+```javascript
+export const UserContext = createContext(is_user_session_valid(default_user_context));
+```
+
+The `UserContext` is initialized with `createContext` ([documentation](https://reactjs.org/docs/context.html#reactcreatecontext)).
+
+I used a helper function called `is_user_session_valid` that will actually attempt to load and validate values from cache and modify the default user context values as required. The implementation is worthy of going through line by line:
+
+![Load data from cache and validate](./docs/images/snippet-03.png)
+
+**Line 62:** We attempt to retrieve the cached `username` (an email address) from `localStorage`. If the value is not defined, we initialize with a `null`
+
+**Line 63:** Similar thing happens with the `accessToken`, which is the JWT access token we would receive after a successful login. **_Note:_** In this implementation all back-end or server operations are only simulated.
+
+**Line 64:** If the user opted to be remembered when they logged in, the local `rememberMe` value will contain the STRING `true`. Many casual observers may not notice this, but here we actually TEST if the string is `true` (which will return a BOOLEAN value). If the string is not present, the default BOOLEAN value of `false` is used.
+
+**Line 65 to 72:** Validation of the JWT token, if present/defined
+
+**Line 66:** We call another helper function (`is_jwt_expired()`) to test if the JWT has expired. No point in loading the user landing page if we know before hand the JWT expired, which means all calls to the back-end or server will be rejected anyway.
+
+**Line 67 to 69:** If the JWT is still valid, we will also store the decoded values. This is personal preference, as I believe that a typical application may refer to the JWT data several times and by calling `jwt_decode()` each time may just cause unnecessary application latency.
+
 ## Important Links
 
 * [React](https://reactjs.org/)
