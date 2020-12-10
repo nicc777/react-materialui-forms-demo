@@ -22,10 +22,10 @@ This is the second iteration of this project where I added various features on t
 * I used the "new" [React Context](https://reactjs.org/docs/context.html) features with [React Hooks](https://reactjs.org/docs/hooks-intro.html). The implementation was based on [the blog entry](https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/) from Ebenezer Don as an alternative from Redux.
 * The JWT Access Token is persisted in the [browsers local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
 * Local storage is also used to cache the username. The username will be auto filled the next time the page is visited.
+* Add a "_remember me_" option to optionally store the username in the local storage
 
 There are still some enhancement outstanding which I will address in the near future as part of my learning exercise:
 
-* Add a "_remember me_" option to optionally store the username in the local storage
 * Using the [Storybook](https://storybook.js.org/docs/react/get-started/introduction) features.
 * Implement unit tests
 * More detailed documentation - perhaps even a tutorial?
