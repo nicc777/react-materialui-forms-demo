@@ -23,12 +23,12 @@ This is the second iteration of this project where I added various features on t
 * The JWT Access Token is persisted in the [browsers local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
 * Local storage is also used to cache the username. The username will be auto filled the next time the page is visited.
 * Add a "_remember me_" option to optionally store the username in the local storage
+* Added a diagram and other supporting material to better explain the implementation and patterns
 
 There are still some enhancement outstanding which I will address in the near future as part of my learning exercise:
 
 * Using the [Storybook](https://storybook.js.org/docs/react/get-started/introduction) features.
 * Implement unit tests
-* More detailed documentation - perhaps even a tutorial?
 * I am considering adding a real back-end for testing purposes. This may be useful to practice some security best practices as well.
 
 ## Quick Start
@@ -46,6 +46,28 @@ Enable your browser's development tools and watch the `console` output for some 
 ## Project Design Overview
 
 ![Design](./docs/images/react-materialui-forms-demo.png)
+
+### User Context - Using React Context (in stead of Redux)
+
+The file `user-context.js` and how it is implemented in some of the other components should be noteworthy. Where to start with the explination is a little more tricky.
+
+I'm going to start with "what" (the "data") will be exposed before we go to the mechanics.
+
+The basic data structure with a bare minimal startup value is defined as shown in the following code snippet:
+
+![Default data structure of the context we will be exporting](./docs/images/snippet-01.png)
+
+A generic component would access the context (READ ONLY) as follows:
+
+**Step 1:** Import the user context with `import {UserContext} from './context/user-context';`
+
+**Step 2:** In your functional component, define a constant with the context for example using the line `const user = useContext(UserContext);`
+
+**Step 3:** Access the user context variables, as defined in the data structure for example: `user.state.loggedIn`
+
+A complete example may look something like the `App.js` file:
+
+![Example read only context access](./docs/images/snippet-02.png)
 
 ## Important Links
 
